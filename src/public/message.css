@@ -1,0 +1,122 @@
+/* Toast message container */
+.message-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 400px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Message styling */
+.message {
+  background: white;
+  color: #333;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: flex-start;
+  transform: translateX(120%);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  max-width: 100%;
+  position: relative;
+}
+
+.message.visible {
+  transform: translateX(0);
+}
+
+.message.hiding {
+  transform: translateX(120%);
+}
+
+.message-icon {
+  margin-right: 12px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.message-content {
+  flex: 1;
+  padding-right: 10px;
+  line-height: 1.4;
+}
+
+.message-close {
+  background: transparent;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  padding: 0;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.message-close:hover {
+  color: #333;
+}
+
+/* Message types */
+.message-success {
+  border-left: 4px solid var(--success-color);
+}
+
+.message-success .message-icon {
+  color: var(--success-color);
+}
+
+.message-error {
+  border-left: 4px solid var(--danger-color);
+}
+
+.message-error .message-icon {
+  color: var(--danger-color);
+}
+
+.message-warning {
+  border-left: 4px solid var(--warning-color);
+}
+
+.message-warning .message-icon {
+  color: var(--warning-color);
+}
+
+.message-info {
+  border-left: 4px solid var(--info-color);
+}
+
+.message-info .message-icon {
+  color: var(--info-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .message-container {
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    max-width: none;
+  }
+  
+  .message {
+    transform: translateY(120%);
+  }
+  
+  .message.visible {
+    transform: translateY(0);
+  }
+  
+  .message.hiding {
+    transform: translateY(120%);
+  }
+}

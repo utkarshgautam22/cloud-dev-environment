@@ -1,0 +1,55 @@
+version: '3'
+
+services:
+  cloud-dev-environment:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cloud-dev-environment
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:${PORT:-3000}"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./logs:/app/logs
+    environment:
+      - PORT=${PORT:-3000}
+      - NODE_ENV=${NODE_ENV:-production}
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - BASE_SSH_PORT=${BASE_SSH_PORT:-22000}
+      - BASE_IDE_PORT=${BASE_IDE_PORT:-8000}
+      - CPU_SHARES=${CPU_SHARES:-512}
+      - MEMORY_LIMIT=${MEMORY_LIMIT:-536870912}
+      - BASE_DOMAIN=${BASE_DOMAIN:-localhost}
+      - API_KEY=${API_KEY}
+      - ENABLE_AUTO_CLEANUP=${ENABLE_AUTO_CLEANUP:-true}
+      - CLEANUP_DISK_THRESHOLD=${CLEANUP_DISK_THRESHOLD:-80}
+      - CLEANUP_IMAGE_AGE_HOURS=${CLEANUP_IMAGE_AGE_HOURS:-24}
+      - CLEANUP_CONTAINER_AGE_HOURS=${CLEANUP_CONTAINER_AGE_HOURS:-48}
+      - CODE_SERVER_VERSION=${CODE_SERVER_VERSION:-4.91.1}
+      - PYTHON_VERSION=${PYTHON_VERSION:-3.9}
+      - NODEJS_VERSION=${NODEJS_VERSION:-18}
+    networks:
+      - cloud-dev-network
+
+  # Optional Traefik reverse proxy for subdomain routing
+  traefik:
+    image: traefik:v2.10
+    container_name: traefik
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml
+      - ./traefik/dynamic:/etc/traefik/dynamic
+      - ./traefik/certs:/etc/traefik/certs
+    networks:
+      - cloud-dev-network
+    profiles: 
+      - with-traefik
+
+networks:
+  cloud-dev-network:
+    driver: bridge

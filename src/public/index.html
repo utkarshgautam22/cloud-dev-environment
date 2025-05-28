@@ -5,46 +5,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cloud Dev Environment Manager</title>
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="message.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
-  <div id="login-section">
-    <h2>Login</h2>
-    <form id="login-form">
-      <label for="api-token">API Token:</label>
-      <input type="password" id="api-token" required />
-      <label for="user-id">User ID:</label>
-      <input type="text" id="user-id" required />
-      <label for="base-domain">Base Domain:</label>
-      <input type="text" id="base-domain" placeholder="dev.example.com" />
-      <button type="submit">Login</button>
-    </form>
-  </div>
-
-  <div id="main-section" style="display:none;">
-    <h1>Cloud Dev Environment Manager</h1>
+  <!-- Main Application Section -->
+  <div id="main-section">
+    <div class="app-header">
+      <h1><i class="fas fa-cloud"></i> Cloud Dev Environment Manager</h1>
+      <div class="user-info">
+        <span id="user-display"></span>
+        <button id="logout-button" class="outline"><i class="fas fa-sign-out-alt"></i> Logout</button>
+      </div>
+    </div>
+    
     <section id="create-section">
-      <h2>Create Environment</h2>
+      <div class="actions-row">
+        <h2><i class="fas fa-plus-circle"></i> Create Environment</h2>
+        <button id="refresh-button" class="outline"><i class="fas fa-sync-alt"></i> Refresh</button>
+      </div>
+      
       <form id="create-form">
-        <label for="env-type">Type:</label>
-        <select id="env-type">
-          <option value="python">Python</option>
-          <option value="nodejs">Node.js</option>
-          <option value="c">C</option>
-          <option value="cpp">C++</option>
-        </select>
-        <button type="submit">Create</button>
+        <div class="form-group">
+          <label for="env-type">Select Environment Type</label>
+          <select id="env-type" required>
+            <option value="" disabled selected>Select Type</option>
+            <option value="python">Python</option>
+            <option value="nodejs">Node.js</option>
+            <option value="c">C</option>
+            <option value="cpp">C++</option>
+          </select>
+        </div>
+        <button type="submit"><i class="fas fa-rocket"></i> Create Environment</button>
       </form>
     </section>
 
+    <!-- Loading spinner -->
+    <div id="loading-spinner" class="spinner hidden">
+      <div class="bounce1"></div>
+      <div class="bounce2"></div>
+      <div class="bounce3"></div>
+    </div>
+
+    <!-- Environment Cards View -->
+    <div id="env-cards" class="env-grid"></div>
+    
     <section id="list-section">
-      <h2>Existing Environments</h2>
+      <h2><i class="fas fa-server"></i> Existing Environments</h2>
+      <div id="no-environments-message" class="message hidden">
+        <p>No environments found. Create one to get started!</p>
+      </div>
       <table id="env-table">
         <thead>
           <tr>
             <th>ID</th>
             <th>Name</th>
             <th>Type</th>
-            <th>SSH Port</th>
+            <th>Status</th>
+            <th>SSH</th>
             <th>IDE URL</th>
             <th>Actions</th>
           </tr>
@@ -54,6 +72,8 @@
     </section>
   </div>
 
+  <script src="message.js"></script>
+  <script src="darkmode.js"></script>
   <script src="frontend.js"></script>
 </body>
 </html>

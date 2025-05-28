@@ -11,6 +11,16 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
-  }
+    "dev": "nodemon src/server.js",
+    "update-bases": "node scripts/update-bases.js",
+    "cleanup": "node scripts/cleanup.js",
+    "setup": "npm install && npm run update-bases",
+    "logs": "mkdir -p logs && touch logs/app.log && tail -f logs/app.log"
+  },
+  "name": "cloud-dev-environment",
+  "version": "1.0.0",
+  "description": "A platform for provisioning and managing containerized development environments with a modern web interface.",
+  "main": "src/server.js",
+  "author": "",
+  "license": "MIT"
 }

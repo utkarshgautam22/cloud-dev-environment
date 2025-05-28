@@ -1,14 +1,16 @@
 # Cloud Development Environment
 
-A platform for provisioning and managing containerized development environments.
+A platform for provisioning and managing containerized development environments with a modern web interface.
 
 ## Features
 
 - Provision cloud development environments in various languages (Python, Node.js, C, C++)
 - Web-based VS Code IDE for each environment
 - SSH access to environments
+- Responsive, modern web interface for environment management
+- User authentication and session management
 - Automatic Docker resource management
-- API for environment provisioning and termination
+- RESTful API for environment provisioning and termination
 
 ## Resource Management and Cleanup
 
@@ -62,3 +64,26 @@ API endpoints for environment management:
 - `GET /api/environments` - List all environments
 - `GET /api/environments/:id` - Get environment details
 - `DELETE /api/environments/:id` - Terminate an environment
+
+## Frontend Interface
+
+The system includes a modern, responsive web interface for managing development environments:
+
+- **Login Screen**: Secure access with API token authentication
+- **Dashboard**: Overview of all your active environments
+- **Environment Creation**: Easily create new environments with various language options
+- **Environment Management**: Access SSH commands, web IDE links, and delete environments
+- **Responsive Design**: Works well on both desktop and mobile devices
+
+### Screenshots
+
+![Login Screen](docs/screenshots/login.png)
+![Dashboard](docs/screenshots/dashboard.png)
+
+### User Interface Features
+
+- Environment status indicators
+- One-click access to development environments
+- Copy-to-clipboard functionality for SSH commands
+- Responsive card and table views of environments
+- User session management with local storage
