@@ -81,10 +81,14 @@ async function provisionEnvironment(environmentType, userId = 'anonymous') {
                 // Stricter resource limits from .env
                 CpuShares: CPU_SHARES,
                 Memory: MEMORY_LIMIT,
+                // Add bind options to allow proper permissions on mounted volumes
+                // Helps resolve permission issues between container and host
+                BindOptions: {
+                    Propagation: "rprivate"
+                }
             },
-            // Add volume for persistence if needed
-            // Volumes: { '/home/devuser/project': {} },
-            // HostConfig: { Binds: [`my-volume-${containerName}:/home/devuser/project`] }
+            // Configure volume options for project directory
+            Volumes: { '/home/devuser/project': {} }
         });
 
         await container.start();

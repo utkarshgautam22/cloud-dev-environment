@@ -13,7 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Create a non-root user 'devuser' with sudo privileges
 RUN useradd -ms /bin/bash devuser && \
     echo "devuser:password" | chpasswd && \
-    adduser devuser sudo
+    adduser devuser sudo && \
+    echo "devuser ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Configure SSH
 RUN mkdir /var/run/sshd && \
@@ -29,13 +30,15 @@ RUN apt-get update && apt-get install -y ca-certificates && \
 
 # Copy the entrypoint script and make it executable
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh && \
+    mkdir -p /home/devuser/project && \
+    chown -R devuser:devuser /home/devuser && \
+    chmod -R 775 /home/devuser/project
 
 # Expose SSH port and code-server port
 EXPOSE 22 8080
 
-# Set up user and working directory
-USER devuser
+# We'll start as root to fix permissions in entrypoint but run code-server as devuser
 WORKDIR /home/devuser/project
 
 # Use exec form for CMD to run the entrypoint script
